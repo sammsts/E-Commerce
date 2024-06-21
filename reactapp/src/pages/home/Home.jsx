@@ -1,8 +1,8 @@
-import StackedLayout from '../../ui/components/stackedlayout/StackedLayout.jsx';
-
 const Home = () => {
     return (
-        <StackedLayout />
+        <div>
+            HOMEaaaaaaa
+        </div>
     );
 };
 
