@@ -28,7 +28,7 @@ export default function Dropdown() {
                         <MenuItem>
                             {({ focus }) => (
                                 <a
-                                    href="#"
+                                    href="/hardware"
                                     className={classNames(
                                         focus ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                         'block px-4 py-2 text-sm',
@@ -41,7 +41,7 @@ export default function Dropdown() {
                         <MenuItem>
                             {({ focus }) => (
                                 <a
-                                    href="#"
+                                    href="/periferico"
                                     className={classNames(
                                         focus ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                         'block px-4 py-2 text-sm',
@@ -54,7 +54,7 @@ export default function Dropdown() {
                         <MenuItem>
                             {({ focus }) => (
                                 <a
-                                    href="#"
+                                    href="/computadores"
                                     className={classNames(
                                         focus ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                         'block px-4 py-2 text-sm',
@@ -67,7 +67,7 @@ export default function Dropdown() {
                         <MenuItem>
                             {({ focus }) => (
                                 <a
-                                    href="#"
+                                    href="/games"
                                     className={classNames(
                                         focus ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                         'block px-4 py-2 text-sm',

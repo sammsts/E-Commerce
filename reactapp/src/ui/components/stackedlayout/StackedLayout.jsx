@@ -20,7 +20,7 @@ const user = {
         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const navigation = [
-    { name: 'Pedidos', href: '#', current: false },
+    { name: 'Pedidos', href: '/pedidos', current: false },
     { name: 'Categorias', href: '/categorias', current: false },
     { name: 'Ofertas do dia', href: '#', current: false },
     { name: 'Suporte', href: '#', current: false },
@@ -206,10 +206,6 @@ export default function StackedLayout() {
                         </>
                     )}
                 </Disclosure>
-
-                <main>
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">{/* Your content */}</div>
-                </main>
             </div>
         </>
     )
