@@ -22,12 +22,11 @@ const user = {
 const navigation = [
     { name: 'Pedidos', href: '/pedidos', current: false },
     { name: 'Categorias', href: '/categorias', current: false },
-    { name: 'Ofertas do dia', href: '#', current: false },
-    { name: 'Suporte', href: '#', current: false },
+    { name: 'Ofertas do dia', href: '/ofertasdodia', current: false },
+    { name: 'Suporte', href: '/contato', current: false },
 ]
 const userNavigation = [
-    { name: 'Perfil', href: '#' },
-    { name: 'Configurações', href: '#' },
+    { name: 'Configura\u00e7\u00f5es', href: '/configuracoes' },
     { name: 'Sair', href: '/' },
 ]
 

@@ -8,7 +8,7 @@ export default function PromoSection() {
                             Os melhores produtos aqui e agora
                         </h1>
                         <p className="mt-4 text-xl text-gray-500">
-                            Alta tecnologia a pronta entrega, diversos produtos para você poder ter hoje mesmo.
+                            Alta tecnologia a pronta entrega, diversos produtos para voc&ecirc; poder ter hoje mesmo.
                         </p>
                     </div>
                     <div>

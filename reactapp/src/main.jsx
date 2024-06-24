@@ -12,6 +12,9 @@ import Games from './pages/games/Games.jsx';
 import Collections from './ui/components/collections/Collections.jsx';
 import PageNotFound from './pages/pagenotfound/PageNotFound.jsx';
 import Pedidos from './pages/pedidos/Pedidos';
+import OfertasDoDia from './pages/ofertasdodia/OfertasDoDia';
+import Contact from './ui/components/contact/Contact';
+import FormConfig from './ui/components/formconfig/FormConfig';
 
 function Main() {
     return (
@@ -43,6 +46,9 @@ function AppRoutes() {
             <Route path="/computadores" element={<Computadores />} />
             <Route path="/games" element={<Games />} />
             <Route path="/pedidos" element={<Pedidos />} />
+            <Route path="/ofertasdodia" element={<OfertasDoDia />} />
+            <Route path="/contato" element={<Contact />} />
+            <Route path="/configuracoes" element={<FormConfig />} />
             <Route path="*" element={<PageNotFound />} />
         </Routes>
     );

@@ -47,7 +47,7 @@ export default function Dropdown() {
                                         'block px-4 py-2 text-sm',
                                     )}
                                 >
-                                    Periféricos
+                                    Perif&eacute;ricos
                                 </a>
                             )}
                         </MenuItem>

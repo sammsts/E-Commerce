@@ -26,7 +26,7 @@ export default defineConfig(({ command }) => {
     let httpsConfig = false;
 
     if (command === 'serve') {
-        // Configuração HTTPS apenas em desenvolvimento
+        // Configura\u00e7ão HTTPS apenas em desenvolvimento
         if (fs.existsSync(keyFilePath) && fs.existsSync(certFilePath)) {
             httpsConfig = {
                 key: fs.readFileSync(keyFilePath),
