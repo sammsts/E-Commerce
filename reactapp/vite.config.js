@@ -22,24 +22,35 @@ const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
 const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
 
 // https://vitejs.dev/config/
-export default defineConfig({
-    plugins: [plugin()],
-    resolve: {
-        alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url))
-        }
-    },
-    server: {
-        proxy: {
-            '^/weatherforecast': {
-                target: 'https://localhost:7063/',
-                secure: false
-            }
-        },
-        port: 5173,
-        https: {
-            key: fs.readFileSync(keyFilePath),
-            cert: fs.readFileSync(certFilePath),
+export default defineConfig(({ command }) => {
+    let httpsConfig = false;
+
+    if (command === 'serve') {
+        // Configuração HTTPS apenas em desenvolvimento
+        if (fs.existsSync(keyFilePath) && fs.existsSync(certFilePath)) {
+            httpsConfig = {
+                key: fs.readFileSync(keyFilePath),
+                cert: fs.readFileSync(certFilePath),
+            };
         }
     }
-})
+
+    return {
+        plugins: [plugin()],
+        resolve: {
+            alias: {
+                '@': fileURLToPath(new URL('./src', import.meta.url)),
+            },
+        },
+        server: {
+            proxy: {
+                '^/weatherforecast': {
+                    target: 'https://localhost:7063/',
+                    secure: false,
+                },
+            },
+            port: 5173,
+            https: httpsConfig,
+        },
+    };
+});
