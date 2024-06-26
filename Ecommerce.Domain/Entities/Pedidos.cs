@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Ecommerce.API.Models
+namespace Ecommerce.Domain.Entities
 {
     public enum FormaPagamentoPedido
     {

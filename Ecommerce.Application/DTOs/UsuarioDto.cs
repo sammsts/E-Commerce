@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Ecommerce.API.Dto
+namespace Ecommerce.Application.Dto
 {
     public class UsuarioDto
     {

@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Ecommerce.Domain.Entities;
 
-namespace Ecommerce.API.Models
+namespace Ecommerce.Infra.Data.Context
 {
-    public partial class EcommerceContext : DbContext
+    public class EcommerceContext : DbContext
     {
-        public EcommerceContext() { }
-
-        public EcommerceContext(DbContextOptions<EcommerceContext> options) : base(options) { }
+        public EcommerceContext(DbContextOptions options) : base(options) { }
 
         public virtual DbSet<Usuarios> Usuarios { get; set; }
         public virtual DbSet<Enderecos> Enderecos { get; set; }
@@ -17,6 +16,9 @@ namespace Ecommerce.API.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(EcommerceContext).Assembly);
+
             modelBuilder.Entity<Usuarios>(entity =>
             {
                 entity.HasKey(e => e.Usu_id);

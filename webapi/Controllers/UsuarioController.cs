@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using Ecommerce.API.Dto;
-using Ecommerce.API.Models;
 using Microsoft.AspNetCore.Mvc;
-using Ecommerce.Interfaces.Repositorios;
+using Ecommerce.Domain.Interfaces;
+using Ecommerce.Domain.Entities;
+using Ecommerce.Application.Interfaces;
+using Ecommerce.Application.Dto;
 
 namespace Ecommerce.API.Controllers
 {
@@ -10,34 +11,32 @@ namespace Ecommerce.API.Controllers
     [Route("api/[controller]")]
     public class UsuarioController : Controller
     {
+        private readonly IUsuarioService _usuarioService;
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
 
-        public UsuarioController(IUsuarioRepository usuarioRepository, IMapper mapper)
+        public UsuarioController(IUsuarioRepository usuarioRepository, IMapper mapper, IUsuarioService usuarioService)
         {
             _usuarioRepository = usuarioRepository;
             _mapper = mapper;
+            _usuarioService = usuarioService;
         }
 
         [HttpGet("SelecionarTodos")] 
         public async Task<ActionResult<IEnumerable<Usuarios>>> BuscarUsuarios() 
         {
-            var usuarios = await _usuarioRepository.SelecionarTodos();
-            var usuariosDto = _mapper.Map<IEnumerable<UsuarioDto>>(usuarios);
+            var usuariosDto = await _usuarioService.SelecionarTodosAsync();
             return Ok(usuariosDto);
         }
 
         [HttpGet("SelecionarPorId/{id}")]
         public async Task<ActionResult> BuscarUsuarioPorId(int id)
         {
-            var usuario = await _usuarioRepository.SelecionarPorId(id);
-
-            if (usuario == null)
+            var usuarioDto = await _usuarioService.SelecionarAsync(id);
+            if (usuarioDto == null)
             {
                 return NotFound("Usuário não encontrado!");
             }
-
-            var usuarioDto = _mapper.Map<UsuarioDto>(usuario);
 
             return Ok(usuarioDto);
         }
@@ -45,61 +44,37 @@ namespace Ecommerce.API.Controllers
         [HttpPost]
         public async Task<ActionResult> CadastrarUsuario(UsuarioDto usuarioDto)
         {
-            var usuario = _mapper.Map<Usuarios>(usuarioDto);
-            _usuarioRepository.Incluir(usuario);
-
-            if (await _usuarioRepository.SalvarTodosAsync())
+            var usuarioDtoIncluido = await _usuarioService.Incluir(usuarioDto);
+            if (usuarioDtoIncluido == null)
             {
-                return Ok("Usuário cadastrado com sucesso!");
+                return BadRequest("Ocorreu um erro ao incluir o usuário!");
             }
 
-            return BadRequest("Ocorreu um erro ao salvar o usuário.");
+            return Ok("Usuário cadastrado com sucesso.");
         }
 
         [HttpPut]
         public async Task<ActionResult> AlterarUsuario (UsuarioDto usuarioDto)
         {
-            if (usuarioDto.Usu_id == 0)
+            var usuarioDtoAlterado = await _usuarioService.Alterar(usuarioDto);
+            if (usuarioDtoAlterado == null) 
             {
-                return BadRequest("Não é possível alterar o usuário. É preciso informar o ID.");
+                return BadRequest("Ocorreu um erro ao tentar alterar o usuário!");
             }
 
-            var usuarioExiste = await _usuarioRepository.SelecionarPorId(usuarioDto.Usu_id);
-
-            if (usuarioExiste == null)
-            {
-                return NotFound("Usuário não encontrado.");
-            }
-
-            var usuario = _mapper.Map<Usuarios>(usuarioDto);
-            _usuarioRepository.Alterar(usuario);
-
-            if (await _usuarioRepository.SalvarTodosAsync())
-            {
-                return Ok("Usuário alterado com sucesso!");
-            }
-
-            return BadRequest("Ocorreu um erro ao alterar o usuário.");
+            return Ok("Usuário alterado com sucesso.");
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> ExcluirUsuario (int id)
         {
-            var usuario = await _usuarioRepository.SelecionarPorId(id);
-
-            if (usuario == null)
+            var usuarioDtoExcluido = await _usuarioService.Excluir(id);
+            if (usuarioDtoExcluido == null)
             {
-                return NotFound("Usuário não encontrado.");
+                return BadRequest("Ocorreu um erro ao tentar excluir o usuário!");
             }
 
-            _usuarioRepository.Excluir(usuario);
-
-            if (await _usuarioRepository.SalvarTodosAsync())
-            {
-                return Ok("Usuário excluído com sucesso!");
-            }
-
-            return BadRequest("Ocorreu um erro ao excluir o usuário.");
+            return Ok("Usuário excluído com sucesso.");
         }
     }
 }

@@ -1,29 +1,15 @@
-using Ecommerce.API.Mappings;
-using Ecommerce.API.Models;
-using Ecommerce.Interfaces.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
+using Ecommerce.Infra.Ioc;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Ecommerce.Interfaces.Repositorios;
-using webapi.Repositorios;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<EcommerceContext>(options =>
-{
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-
-#region Services
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddAutoMapper(typeof(EntitiesToDtoMappingProfile));
-#endregion
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
+builder.Services.AddInfrastructureSwagger();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => 
