@@ -4,7 +4,10 @@ using Ecommerce.Application.Dto;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
+using Ecommerce.Domain.Pagination;
 using OpenQA.Selenium;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Ecommerce.Application.Services
 {
@@ -57,6 +60,16 @@ namespace Ecommerce.Application.Services
             try
             {
                 var usuario = _mapper.Map<Usuarios>(usuarioDto);
+
+                if (usuarioDto.Usu_senha != null)
+                {
+                    using var hmac = new HMACSHA512();
+                    byte[] _usu_senhaHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(usuarioDto.Usu_senha));
+                    byte[] _usu_senhaSalt = hmac.Key;
+
+                    usuario.AlterarSenha(_usu_senhaHash, _usu_senhaSalt);
+                }
+
                 var usuarioIncluido = await _repository.Incluir(usuario);
                 return _mapper.Map<UsuarioDto>(usuarioIncluido);
             }
@@ -84,12 +97,13 @@ namespace Ecommerce.Application.Services
             }
         }
 
-        public async Task<IEnumerable<UsuarioDto>> SelecionarTodosAsync()
+        public async Task<PagedList<UsuarioDto>> SelecionarTodosAsync(int pageNumber, int pageSize)
         {
             try
             {
-                var usuarios = await _repository.SelecionarTodosAsync();
-                return _mapper.Map<IEnumerable<UsuarioDto>>(usuarios);
+                var usuarios = await _repository.SelecionarTodosAsync(pageNumber, pageSize);
+                var usuariosDto = _mapper.Map<IEnumerable<UsuarioDto>>(usuarios);
+                return new PagedList<UsuarioDto>(usuariosDto, pageNumber, pageSize, usuarios.TotalCount);
             }
             catch (Exception ex)
             {

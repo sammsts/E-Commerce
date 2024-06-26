@@ -11,18 +11,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddInfrastructureSwagger();
 builder.Services.AddInfrastructure(builder.Configuration);
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => 
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["chaveSecreta"])),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-    });
-
 var app = builder.Build();
 
 app.UseDefaultFiles();
@@ -36,6 +24,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

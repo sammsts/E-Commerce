@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Application.Dto;
+using Ecommerce.Domain.Pagination;
 
 namespace Ecommerce.Application.Interfaces
 {
@@ -8,6 +9,6 @@ namespace Ecommerce.Application.Interfaces
         Task<UsuarioDto> Alterar(UsuarioDto usuarioDto);
         Task<UsuarioDto> Excluir(int id);
         Task<UsuarioDto> SelecionarAsync(int id);
-        Task<IEnumerable<UsuarioDto>> SelecionarTodosAsync();
+        Task<PagedList<UsuarioDto>> SelecionarTodosAsync(int pageNumber, int pageSize);
     }
 }

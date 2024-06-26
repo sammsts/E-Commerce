@@ -1,6 +1,8 @@
 ﻿using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
+using Ecommerce.Domain.Pagination;
 using Ecommerce.Infra.Data.Context;
+using Ecommerce.Infra.Data.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 
@@ -76,11 +78,13 @@ namespace Ecommerce.Interfaces.Repositorios
             }
         }
 
-        public async Task<IEnumerable<Usuarios>> SelecionarTodosAsync()
+        public async Task<PagedList<Usuarios>> SelecionarTodosAsync(int pageNumber, int pageSize)
         {
             try
             {
-                return await _context.Usuarios.ToListAsync();
+                var query = _context.Usuarios.AsQueryable();
+
+                return await PaginationHelper.CreateAsync(query, pageNumber, pageSize);
             }
             catch (Exception ex)
             {

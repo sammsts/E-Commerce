@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Domain.Entities;
+using Ecommerce.Domain.Pagination;
 
 namespace Ecommerce.Domain.Interfaces
 {
@@ -8,7 +9,7 @@ namespace Ecommerce.Domain.Interfaces
         Task<Usuarios> Alterar(Usuarios usuario);
         Task<Usuarios> Excluir(int id);
         Task<Usuarios> SelecionarAsync(int id);
-        Task<IEnumerable<Usuarios>> SelecionarTodosAsync();
+        Task<PagedList<Usuarios>> SelecionarTodosAsync(int pageNumber, int pageSize);
         Task<int> BuscarUltimoId();
     }
 }
