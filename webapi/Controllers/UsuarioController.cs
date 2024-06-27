@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Domain.Interfaces;
-using Ecommerce.Domain.Entities;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Application.Dto;
 using Ecommerce.API.Models;

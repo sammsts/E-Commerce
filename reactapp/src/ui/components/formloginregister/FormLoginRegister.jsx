@@ -1,6 +1,41 @@
 import '../../components/formloginregister/style.css';
+import axios from 'axios';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const FormLoginRegister = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    sessionStorage.setItem('Authenticated', false);
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post('https://localhost:7063/api/Usuario/Login', {
+                email: email,
+                password: password
+            });
+
+            if (response.status == 200) {
+                const token = response.data.token;
+                localStorage.setItem('tokenJWT', token);
+                sessionStorage.setItem('Authenticated', true);
+            }
+
+            accessSystem();
+        } catch (error) {
+            console.error('Error during login:', error);
+        }
+    };
+
+    const accessSystem = async () => {
+        if (sessionStorage.getItem('Authenticated')) {
+            navigate('/home');
+        }
+    };
+
     return (
         <>
             <div className="tooltip-container">
@@ -38,10 +73,10 @@ const FormLoginRegister = () => {
                         <div className="flip-card__innerLG">
                             <div className="flip-card__frontLG">
                                 <div className="titleLG">Log in</div>
-                                <form className="flip-card__formLG" action="">
-                                    <input className="flip-card__inputLG" name="email" placeholder="Email" type="email" />
-                                    <input className="flip-card__inputLG" name="password" placeholder="Password" type="password" />
-                                    <button className="flip-card__btnLG">Let`s go!</button>
+                                <form className="flip-card__formLG" onSubmit={ handleLogin }>
+                                    <input className="flip-card__inputLG" name="email" placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                    <input className="flip-card__inputLG" name="password" placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                    <button className="flip-card__btnLG" type="submit">Let`s go!</button>
                                 </form>
                             </div>
                             <div className="flip-card__backLG">

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './index.css';
 import StackedLayout from './ui/components/stackedlayout/StackedLayout.jsx';
 import Login from './pages/login/Login.jsx';
@@ -15,6 +15,14 @@ import Pedidos from './pages/pedidos/Pedidos';
 import OfertasDoDia from './pages/ofertasdodia/OfertasDoDia';
 import Contact from './ui/components/contact/Contact';
 import FormConfig from './ui/components/formconfig/FormConfig';
+
+function PrivateRoute({ element: Element, ...rest }) {
+    return localStorage.getItem('tokenJWT') ? (
+        <Element {...rest} />
+    ) : (
+        <Navigate to="/" />
+    );
+}
 
 function Main() {
     return (
@@ -39,17 +47,18 @@ function MainLayout() {
 function AppRoutes() {
     return (
         <Routes>
-            <Route path="/home" element={<Home />} />
-            <Route path="/categorias" element={<Collections />} />
-            <Route path="/hardware" element={<Hardware />} />
-            <Route path="/periferico" element={<Periferico />} />
-            <Route path="/computadores" element={<Computadores />} />
-            <Route path="/games" element={<Games />} />
-            <Route path="/pedidos" element={<Pedidos />} />
-            <Route path="/ofertasdodia" element={<OfertasDoDia />} />
-            <Route path="/contato" element={<Contact />} />
-            <Route path="/configuracoes" element={<FormConfig />} />
-            <Route path="*" element={<PageNotFound />} />
+            <Route path="/home" element={<PrivateRoute element={Home} />} />
+            <Route path="/categorias" element={<PrivateRoute element={Collections} />} />
+            <Route path="/hardware" element={<PrivateRoute element={Hardware} />} />
+            <Route path="/periferico" element={<PrivateRoute element={Periferico} />} />
+            <Route path="/computadores" element={<PrivateRoute element={Computadores} />} />
+            <Route path="/games" element={<PrivateRoute element={Games} />} />
+            <Route path="/pedidos" element={<PrivateRoute element={Pedidos} />} />
+            <Route path="/ofertasdodia" element={<PrivateRoute element={OfertasDoDia} />} />
+            <Route path="/contato" element={<PrivateRoute element={Contact} />} />
+            <Route path="/configuracoes" element={<PrivateRoute element={FormConfig} />} />
+            <Route path="/404" element={<PageNotFound />} />
+            <Route path="*" element={<Navigate to="/404" />} />
         </Routes>
     );
 }
