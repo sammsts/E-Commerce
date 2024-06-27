@@ -85,10 +85,6 @@ namespace Ecommerce.Application.Services
             try
             {
                 var usuario = await _repository.SelecionarAsync(id);
-                if (usuario == null)
-                {
-                    throw new NotFoundException($"Usuário não encontrado.");
-                }
                 return _mapper.Map<UsuarioDto>(usuario);
             }
             catch (Exception ex)

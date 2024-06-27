@@ -24,7 +24,6 @@ namespace Ecommerce.Application.Dto
         [MinLength(6, ErrorMessage = "Campo de senha deve ter no mínimo 6 caracteres.")]
         public string Usu_senha { get; set; }
 
-        //[Required]
-        //public bool Usu_status { get; set; }
+        public bool Usu_IsAdmin { get; set; }
     }
 }

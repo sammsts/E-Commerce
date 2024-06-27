@@ -52,8 +52,20 @@ namespace Ecommerce.Domain.Entities
         [Column("usu_status")]
         public bool Usu_status { get; set; }
 
+        [Required]
+        [Column("usu_isadmin")]
+        public bool Usu_IsAdmin { get; set; }
+
+        [Column("usu_imagemperfil")]
+        public byte[]? Usu_ImgPerfil { get; set; }
+
         [InverseProperty("Usuarios")]
         public virtual ICollection<Enderecos> Enderecos { get; set; }
+
+        public void SetAdmin(bool isAdmin)
+        {
+            Usu_IsAdmin = isAdmin;
+        }
 
         public void AlterarSenha(byte[] _usu_senhaHash, byte[] _usu_senhaSalt)
         {
@@ -69,6 +81,8 @@ namespace Ecommerce.Domain.Entities
             DomainExceptionValidation.When(_usu_email.Length > 250, "O e-mail não pode ultrapassar de 250 caracteres.");
             Usu_nome = _usu_nome;
             Usu_email = _usu_email;
+            Usu_status = true; 
+            Usu_IsAdmin = false;
         }
     }
 }

@@ -360,3 +360,9 @@
     color: var(--font-color);
     cursor: pointer;
 }
+
+/*Label Error*/
+/*.labelError {
+    font-size: 10px;
+    color: red;
+}*/

@@ -14,10 +14,9 @@ import ShoppingCart from '../shoppingcart/ShoppingCart.jsx'
 import React, { useState } from 'react';
 
 const user = {
-    name: 'Tom Cook',
-    email: 'tom@example.com',
-    imageUrl:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    name: sessionStorage.getItem('UserName'),
+    email: sessionStorage.getItem('UserEmail'),
+    imageUrl: sessionStorage.getItem('UserImgProfile')
 }
 const navigation = [
     { name: 'Pedidos', href: '/pedidos', current: false },
@@ -26,6 +25,7 @@ const navigation = [
     { name: 'Suporte', href: '/contato', current: false },
 ]
 const userNavigation = [
+    { name: 'Bem vindo(a) ' + sessionStorage.getItem('UserName'), href: '#' },
     { name: 'Configura\u00e7\u00f5es', href: '/configuracoes' },
     { name: 'Sair', href: '/' },
 ]
@@ -43,7 +43,7 @@ export default function StackedLayout() {
 
     const handleCloseShoppingCart = () => {
         setShoppingCartOpen(false);
-    };;
+    };
 
     return (
         <>
@@ -120,17 +120,28 @@ export default function StackedLayout() {
                                                     <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                         {userNavigation.map((item) => (
                                                             <MenuItem key={item.name}>
-                                                                {({ focus }) => (
-                                                                    <a
+                                                                {
+                                                                    item.name == 'Configura\u00e7\u00f5es' || item.name == 'Sair' ?
+                                                                    ({ focus }) => (
+                                                                        <a
+                                                                            href={item.href}
+                                                                            className={classNames(
+                                                                                focus ? 'bg-gray-100' : '',
+                                                                                'block px-4 py-2 text-sm text-gray-700',
+                                                                            )}
+                                                                        >
+                                                                            {item.name}
+                                                                        </a>
+                                                                    ) :
+                                                                    <div
                                                                         href={item.href}
                                                                         className={classNames(
-                                                                            focus ? 'bg-gray-100' : '',
-                                                                            'block px-4 py-2 text-sm text-gray-700',
+                                                                            'block px-4 py-2 text-sm text-gray-700 hover:underline',
                                                                         )}
                                                                     >
                                                                         {item.name}
-                                                                    </a>
-                                                                )}
+                                                                    </div>
+                                                                }
                                                             </MenuItem>
                                                         ))}
                                                     </MenuItems>

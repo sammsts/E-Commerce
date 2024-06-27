@@ -4,7 +4,9 @@
     usu_email VARCHAR(250) NOT NULL,
     usu_senhahash BYTEA NOT NULL,
     usu_senhasalt BYTEA NOT NULL,
-    usu_status BOOLEAN DEFAULT TRUE NOT NULL
+    usu_status BOOLEAN DEFAULT TRUE NOT NULL,
+    usu_isadmin BOOLEAN DEFAULT FALSE NOT NULL,
+    usu_imagemperfil BYTEA
 );
 
 --------------------------------------------------------------------

@@ -7,6 +7,7 @@ using Ecommerce.API.Models;
 using Ecommerce.Domain.Account;
 using Microsoft.AspNetCore.Authorization;
 using Ecommerce.API.Extensions;
+using Ecommerce.Infra.Ioc;
 
 namespace Ecommerce.API.Controllers
 {
@@ -18,8 +19,6 @@ namespace Ecommerce.API.Controllers
         private readonly IUsuarioService _usuarioService;
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
-
-        
 
         public UsuarioController(IUsuarioRepository usuarioRepository, IMapper mapper, IUsuarioService usuarioService, IAuthenticate authenticateService)
         {
@@ -33,6 +32,13 @@ namespace Ecommerce.API.Controllers
         [Authorize]
         public async Task<ActionResult> BuscarUsuarios([FromQuery]PaginationParams paginationParams) 
         {
+            var isAdmin = await PermissionsAdmin();
+
+            if (!isAdmin)
+            {
+                return Unauthorized("Você não tem permissão para consultar usuários.");
+            }
+
             var usuariosDto = await _usuarioService.SelecionarTodosAsync(paginationParams.PageNumber, paginationParams.pageSize);
             Response.AddPaginationHeader(new PaginationHeader(usuariosDto.CurrentPage, usuariosDto.PageSize, usuariosDto.TotalCount, usuariosDto.TotalPages));
             return Ok(usuariosDto);
@@ -42,6 +48,13 @@ namespace Ecommerce.API.Controllers
         [Authorize]
         public async Task<ActionResult> BuscarUsuarioPorId(int id)
         {
+            var isAdmin = await PermissionsAdmin();
+
+            if (!isAdmin)
+            {
+                return Unauthorized("Você não tem permissão para consultar usuário.");
+            }
+
             var usuarioDto = await _usuarioService.SelecionarAsync(id);
             if (usuarioDto == null)
             {
@@ -73,8 +86,10 @@ namespace Ecommerce.API.Controllers
             return new UserToken
             {
                 Token = token,
-                //IsAdmin = usuario.IsAdmin,
-                //Email = usuario.Email
+                IsAdmin = usuario.Usu_IsAdmin,
+                UserEmail = usuario.Usu_email,
+                UserName = usuario.Usu_nome,
+                UserImgProfile = usuario.Usu_ImgPerfil
             };
         }
 
@@ -111,6 +126,13 @@ namespace Ecommerce.API.Controllers
         [Authorize]
         public async Task<ActionResult> AlterarUsuario (UsuarioDto usuarioDto)
         {
+            var isAdmin = await PermissionsAdmin();
+
+            if (!isAdmin)
+            {
+                return Unauthorized("Você não tem permissão para alterar usuários.");
+            }
+
             var usuarioDtoAlterado = await _usuarioService.Alterar(usuarioDto);
             if (usuarioDtoAlterado == null) 
             {
@@ -124,6 +146,13 @@ namespace Ecommerce.API.Controllers
         [Authorize]
         public async Task<ActionResult> ExcluirUsuario (int id)
         {
+            var isAdmin = await PermissionsAdmin();
+
+            if (!isAdmin)
+            {
+                return Unauthorized("Você não tem permissão para excluir usuários.");
+            }
+
             var usuarioDtoExcluido = await _usuarioService.Excluir(id);
             if (usuarioDtoExcluido == null)
             {
@@ -131,6 +160,22 @@ namespace Ecommerce.API.Controllers
             }
 
             return Ok("Usuário excluído com sucesso.");
+        }
+
+        private async Task<bool> PermissionsAdmin()
+        {
+            var userId = User.GetId();
+            var usuario = await _usuarioService.SelecionarAsync(userId);
+
+            if (usuario != null)
+            {
+                if (usuario.Usu_IsAdmin)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
