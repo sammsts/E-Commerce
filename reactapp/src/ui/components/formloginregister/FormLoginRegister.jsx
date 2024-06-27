@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const FormLoginRegister = () => {
+    const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -22,6 +23,26 @@ const FormLoginRegister = () => {
                 const token = response.data.token;
                 localStorage.setItem('tokenJWT', token);
                 sessionStorage.setItem('Authenticated', true);
+            }
+
+            accessSystem();
+        } catch (error) {
+            console.error('Error during login:', error);
+        }
+    };
+
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post('https://localhost:7063/api/Usuario/RegistrarUsuario', {
+                Usu_nome: nome,
+                Usu_email: email,
+                Usu_senha: password
+            });
+
+            if (response.status == 200) {
+                console.log("CADASTRADO");
             }
 
             accessSystem();
@@ -81,11 +102,11 @@ const FormLoginRegister = () => {
                             </div>
                             <div className="flip-card__backLG">
                                 <div className="titleLG">Sign up</div>
-                                <form className="flip-card__formLG" action="">
-                                    <input className="flip-card__inputLG" placeholder="Name" type="name" />
-                                    <input className="flip-card__inputLG" name="email" placeholder="Email" type="email" />
-                                    <input className="flip-card__inputLG" name="password" placeholder="Password" type="password" />
-                                    <button className="flip-card__btnLG">Confirm!</button>
+                                <form className="flip-card__formLG" onSubmit={ handleSignUp }>
+                                    <input className="flip-card__inputLG" placeholder="Name" type="name" value={nome} onChange={(e) => setNome(e.target.value)} />
+                                    <input className="flip-card__inputLG" name="email" placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                    <input className="flip-card__inputLG" name="password" placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                    <button className="flip-card__btnLG" type="submit">Confirm!</button>
                                 </form>
                             </div>
                         </div>
