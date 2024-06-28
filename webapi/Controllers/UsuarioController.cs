@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Domain.Interfaces;
 using Ecommerce.Application.Interfaces;
-using Ecommerce.Application.Dto;
 using Ecommerce.API.Models;
 using Ecommerce.Domain.Account;
 using Microsoft.AspNetCore.Authorization;
 using Ecommerce.API.Extensions;
 using Ecommerce.Infra.Ioc;
+using Ecommerce.Application.DTOs;
 
 namespace Ecommerce.API.Controllers
 {
@@ -124,16 +124,9 @@ namespace Ecommerce.API.Controllers
 
         [HttpPut("AtualizarUsuario")]
         [Authorize]
-        public async Task<ActionResult> AlterarUsuario (UsuarioDto usuarioDto)
+        public async Task<ActionResult> AlterarUsuario (AtualizaUsuarioDto atualizaUsuarioDto)
         {
-            var isAdmin = await PermissionsAdmin();
-
-            if (!isAdmin)
-            {
-                return Unauthorized("Você não tem permissão para alterar usuários.");
-            }
-
-            var usuarioDtoAlterado = await _usuarioService.Alterar(usuarioDto);
+            var usuarioDtoAlterado = await _usuarioService.Alterar(atualizaUsuarioDto);
             if (usuarioDtoAlterado == null) 
             {
                 return BadRequest("Ocorreu um erro ao tentar alterar o usuário!");

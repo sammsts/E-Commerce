@@ -5,12 +5,14 @@ using Ecommerce.Domain.Account;
 using Ecommerce.Domain.Interfaces;
 using Ecommerce.Infra.Data.Context;
 using Ecommerce.Infra.Data.Identity;
+using Ecommerce.Infra.Data.Repositories;
 using Ecommerce.Interfaces.Repositorios;
 using Ecommerce.Interfaces.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -22,7 +24,8 @@ namespace Ecommerce.Infra.Ioc
         {
             services.AddDbContext<EcommerceContext>(options =>
             {
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging()
+                   .LogTo(Console.WriteLine, LogLevel.Information);
             });
 
             services.AddAuthentication(options =>
@@ -49,11 +52,13 @@ namespace Ecommerce.Infra.Ioc
 
             #region Services
             services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<IEnderecoService, EnderecoService>();
             services.AddScoped<IAuthenticate, AuthenticateService>();
             services.AddScoped<ITokenService, TokenService>();
             #endregion
             #region Repositories
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IEnderecoRepository, EnderecoRepository>();
             #endregion
 
             return services;

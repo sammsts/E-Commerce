@@ -3,28 +3,41 @@ import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useRef } from 'react';
 import estadosJSON from '/src/helpers/Estados.json';
 import cidadesJSON from '/src/helpers/Cidades.json';
+import api from '/src/api.jsx';
 
 export default function FormConfig() {
     const navigate = useNavigate();
     const fileInputRef = useRef(null);
+    const [responseEnd, setResponseEnd] = useState([]);
+    const [responseUsu, setResponseUsu] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const [estados, setEstados] = useState([]);
     const [cidades, setCidades] = useState([]);
     const [indexIdEstado, setIndexIdEstado] = useState(null);
-    const [formData, setFormData] = useState({
+    const [formDataUsu, setFormDataUsu] = useState({
+        Usu_id: null,
+        Usu_nome: '',
+        Usu_email: '',
+        Usu_senha: '',
+        Usu_idAdmin: false,
+        Usu_ImgPerfil: null
+    });
+    const [formDataEnd, setFormDataEnd] = useState({
         primeiroNome: '',
         ultimoNome: '',
-        email: '',
-        pais: '',
-        estado: '',
-        cep: '',
-        bairro: '',
-        rua: '',
-        numero: '',
-        complemento: '',
-        cidade: '',
+        Usu_email: '',
+        End_pais: 'Brasil',
+        End_estado: '',
+        End_cep: '',
+        End_bairro: '',
+        End_rua: '',
+        End_numero: '',
+        End_complemento: '',
+        End_cidade: '',
         foto: {
             nome: '',
-            bytes: null
+            bytes: []
         }
     });
 
@@ -33,20 +46,13 @@ export default function FormConfig() {
         if (file) {
             const reader = new FileReader();
             reader.onload = (event) => {
-                const binaryString = event.target.result;
-                const bytes = new Uint8Array(binaryString.length);
-                for (let i = 0; i < binaryString.length; i++) {
-                    bytes[i] = binaryString.charCodeAt(i);
-                }
-                setFormData({
-                    ...formData,
-                    foto: {
-                        nome: file.name,
-                        bytes: bytes
-                    }
-                });
+                const base64String = event.target.result.replace("data:", "").replace(/^.+,/, "");
+                setFormDataUsu((prevFormData) => ({
+                    ...prevFormData,
+                    Usu_ImgPerfil: base64String
+                }));
             };
-            reader.readAsBinaryString(file);
+            reader.readAsDataURL(file);
         }
     };
 
@@ -56,9 +62,15 @@ export default function FormConfig() {
 
     const handleChange = (e) => {
         const { name, value, selectedIndex } = e.target;
-        setFormData({ ...formData, [name]: value });
-
-        if (name === 'estado') {
+        setFormDataEnd({ ...formDataEnd, [name]: value });
+        setFormDataUsu({
+            Usu_nome: formDataEnd.primeiroNome + ' ' + formDataEnd.ultimoNome,
+            Usu_senha: '',
+            Usu_idAdmin: false,
+            Usu_email: formDataEnd.Usu_email,
+            Usu_ImgPerfil: formDataEnd.foto.bytes
+        });
+        if (name === 'End_estado') {
             setIndexIdEstado(selectedIndex);
         }
     };
@@ -72,7 +84,46 @@ export default function FormConfig() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Dados do formulário:', formData);
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const resEnd = await api.post('/Endereco/RegistrarEndereco', formDataEnd);
+                const resUsu = await api.put('/Usuario/AtualizarUsuario', formDataUsu);
+                setResponseEnd(resEnd.data);
+                setResponseUsu(resUsu.data);
+
+                setFormDataEnd({
+                    primeiroNome: '',
+                    ultimoNome: '',
+                    Usu_email: '',
+                    End_pais: 'Brasil',
+                    End_estado: '',
+                    End_cep: '',
+                    End_bairro: '',
+                    End_rua: '',
+                    End_numero: '',
+                    End_complemento: '',
+                    End_cidade: '',
+                    foto: {
+                        nome: '',
+                        bytes: null
+                    }
+                });
+                setFormDataUsu({
+                    Usu_nome: '',
+                    Usu_email: '',
+                    Usu_senha: '',
+                    Usu_idAdmin: false,
+                    Usu_ImgPerfil: null
+                });
+            } catch (error) {
+                setError(error.response ? error.response.data.errors : error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
     };
 
     const handleClickCancel = () => {
@@ -116,7 +167,7 @@ export default function FormConfig() {
                                 />
                             </div>
                             <label className="block italic text-sm">
-                                { formData.foto.nome }
+                                { formDataEnd.foto.nome }
                             </label>
                         </div>
                     </div>
@@ -135,9 +186,9 @@ export default function FormConfig() {
                                     name="primeiroNome"
                                     id="first-name"
                                     autoComplete="given-name"
-                                    value={formData.primeiroNome}
+                                    value={formDataEnd.primeiroNome}
                                     onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 px-2 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -152,9 +203,9 @@ export default function FormConfig() {
                                     name="ultimoNome"
                                     id="last-name"
                                     autoComplete="family-name"
-                                    value={formData.ultimoNome}
+                                    value={formDataEnd.ultimoNome}
                                     onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 px-2 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -166,12 +217,12 @@ export default function FormConfig() {
                             <div className="mt-2">
                                 <input
                                     id="email"
-                                    name="email"
+                                    name="Usu_email"
                                     type="email"
                                     autoComplete="email"
-                                    value={formData.email}
+                                    value={formDataEnd.Usu_email}
                                     onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 px-2 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -183,11 +234,11 @@ export default function FormConfig() {
                             <div className="mt-2">
                                 <select
                                     id="pais"
-                                    name="pais"
+                                    name="End_pais"
                                     autoComplete="country-name"
-                                    value={formData.pais}
+                                    value={formDataEnd.End_pais}
                                     onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 px-2 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 >
                                     <option>Brasil</option>
                                 </select>
@@ -201,11 +252,11 @@ export default function FormConfig() {
                             <div className="mt-2">
                                 <select
                                     id="estado"
-                                    name="estado"
+                                    name="End_estado"
                                     autoComplete="state-name"
-                                    value={formData.estado}
+                                    value={formDataEnd.End_estado}
                                     onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 px-2 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
                                     <option value="">Selecione uma estado...</option>
 
@@ -224,15 +275,15 @@ export default function FormConfig() {
                             </label>
                             <div className="mt-2">
                                 <select
-                                    name="cidade"
+                                    name="End_cidade"
                                     id="cidade"
                                     autoComplete="cidade-name"
-                                    value={formData.cidade}
+                                    value={formDataEnd.End_cidade}
                                     onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 px-2 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 >
                                     {filterCities().map(cidade => (
-                                        <option key={cidade.ID} value={cidade.Sigla}>
+                                        <option key={cidade.ID} value={cidade.Nome}>
                                             {cidade.Nome}
                                         </option>
                                     ))}
@@ -247,12 +298,12 @@ export default function FormConfig() {
                             <div className="mt-2">
                                 <input
                                     type="text"
-                                    name="cep"
+                                    name="End_cep"
                                     id="postal-code"
                                     autoComplete="postal-code"
-                                    value={formData.cep}
+                                    value={formDataEnd.End_cep}
                                     onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 px-2 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -264,12 +315,12 @@ export default function FormConfig() {
                             <div className="mt-2">
                                 <input
                                     type="text"
-                                    name="bairro"
+                                    name="End_bairro"
                                     id="bairro"
                                     autoComplete="address-level2"
-                                    value={formData.bairro}
+                                    value={formDataEnd.End_bairro}
                                     onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 px-2 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -281,12 +332,12 @@ export default function FormConfig() {
                             <div className="mt-2">
                                 <input
                                     type="text"
-                                    name="rua"
+                                    name="End_rua"
                                     id="rua"
                                     autoComplete="address-line1"
-                                    value={formData.rua}
+                                    value={formDataEnd.End_rua}
                                     onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 px-2 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -298,12 +349,12 @@ export default function FormConfig() {
                             <div className="mt-2">
                                 <input
                                     type="text"
-                                    name="numero"
+                                    name="End_numero"
                                     id="numero"
                                     autoComplete="address-line2"
-                                    value={formData.numero}
+                                    value={formDataEnd.End_numero}
                                     onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 px-2 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -315,12 +366,12 @@ export default function FormConfig() {
                             <div className="mt-2">
                                 <input
                                     type="text"
-                                    name="complemento"
+                                    name="End_complemento"
                                     id="complemento"
                                     autoComplete="address-line3"
-                                    value={formData.complemento}
+                                    value={formDataEnd.End_complemento}
                                     onChange={handleChange}
-                                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 px-2 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -334,8 +385,13 @@ export default function FormConfig() {
                         type="submit"
                         className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
-                        Salvar
+                        { loading ? "Salvando..." : "Salvar"}
                     </button>
+                </div>
+                <div className="flex items-center justify-center sm:text-lg text-red-600">
+                    <p>
+                        {typeof error === 'string' && typeof error !== 'object' ? error : JSON.stringify(error)}
+                    </p>
                 </div>
             </div>
         </form>

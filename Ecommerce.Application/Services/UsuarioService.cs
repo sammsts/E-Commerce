@@ -1,6 +1,6 @@
 ﻿using Amazon.Lambda.Model;
 using AutoMapper;
-using Ecommerce.Application.Dto;
+using Ecommerce.Application.DTOs;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
@@ -22,13 +22,13 @@ namespace Ecommerce.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<UsuarioDto> Alterar(UsuarioDto usuarioDto)
+        public async Task<AtualizaUsuarioDto> Alterar(AtualizaUsuarioDto atualizaUsuarioDto)
         {
             try
             {
-                var usuario = _mapper.Map<Usuarios>(usuarioDto);
+                var usuario = _mapper.Map<Usuarios>(atualizaUsuarioDto);
                 var usuarioAlterado = await _repository.Alterar(usuario);
-                return _mapper.Map<UsuarioDto>(usuarioAlterado);
+                return _mapper.Map<AtualizaUsuarioDto>(usuarioAlterado);
             }
             catch (Exception ex)
             {

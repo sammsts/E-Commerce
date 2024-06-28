@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Ecommerce.Application.Dto
+namespace Ecommerce.Application.DTOs
 {
     public class UsuarioDto
     {
@@ -25,5 +25,6 @@ namespace Ecommerce.Application.Dto
         public string Usu_senha { get; set; }
 
         public bool Usu_IsAdmin { get; set; }
+        public byte[]? Usu_ImgPerfil { get; set; }
     }
 }

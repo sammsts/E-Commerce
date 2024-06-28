@@ -11,7 +11,7 @@ namespace Ecommerce.Domain.Entities
         public int End_id { get; set; }
 
         [Column("usu_id")]
-        public int Usu_id { get; set; }
+        public int Usu_id { get; private set; }
 
         [Required]
         [Column("end_cep")]
@@ -26,6 +26,11 @@ namespace Ecommerce.Domain.Entities
         [Column("end_estado")]
         [StringLength(2)]
         public string End_estado { get; set; }
+
+        [Required]
+        [Column("end_cidade")]
+        [StringLength(50)]
+        public string End_cidade { get; set; }
 
         [Required]
         [Column("end_bairro")]
@@ -46,7 +51,7 @@ namespace Ecommerce.Domain.Entities
         [StringLength(250)]
         public string End_complemento { get; set; }
 
-        [ForeignKey("usu_id")]
-        public virtual Usuarios Usuarios { get; set; }
+        //[ForeignKey("usu_id")]
+        //public virtual Usuarios Usuarios { get; set; }
     }
 }

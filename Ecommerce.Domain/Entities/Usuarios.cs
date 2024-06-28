@@ -9,7 +9,7 @@ namespace Ecommerce.Domain.Entities
     {
         public Usuarios()
         {
-            Enderecos = new HashSet<Enderecos>();
+            //Enderecos = new HashSet<Enderecos>();
         }
 
         public Usuarios(int _usu_id, string _usu_nome, string _usu_email)
@@ -59,8 +59,8 @@ namespace Ecommerce.Domain.Entities
         [Column("usu_imagemperfil")]
         public byte[]? Usu_ImgPerfil { get; set; }
 
-        [InverseProperty("Usuarios")]
-        public virtual ICollection<Enderecos> Enderecos { get; set; }
+        //[InverseProperty("Usuarios")]
+        //public virtual ICollection<Enderecos> Enderecos { get; set; }
 
         public void SetAdmin(bool isAdmin)
         {

@@ -16,6 +16,7 @@ CREATE TABLE enderecos (
     end_cep INT,
     end_pais VARCHAR(50),
     end_estado CHAR(2),
+    end_cidade VARCHAR(50),
     end_bairro VARCHAR(50),
     end_rua VARCHAR(50),
     end_numero INT,

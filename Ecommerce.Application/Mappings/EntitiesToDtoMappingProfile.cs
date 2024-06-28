@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Ecommerce.Application.Dto;
+using Ecommerce.Application.DTOs;
 using Ecommerce.Domain.Entities;
 
 namespace Ecommerce.API.Mappings
@@ -9,6 +9,8 @@ namespace Ecommerce.API.Mappings
         public EntitiesToDtoMappingProfile()
         {
             CreateMap<Usuarios, UsuarioDto>().ReverseMap();
+            CreateMap<Usuarios, AtualizaUsuarioDto>().ReverseMap();
+            CreateMap<Enderecos, EnderecoDto>().ReverseMap();
         }
     }
 }
