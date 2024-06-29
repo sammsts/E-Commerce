@@ -57,7 +57,7 @@ namespace Ecommerce.Domain.Entities
         public bool Usu_IsAdmin { get; set; }
 
         [Column("usu_imagemperfil")]
-        public byte[]? Usu_ImgPerfil { get; set; }
+        public string? Usu_ImgPerfil { get; set; }
 
         //[InverseProperty("Usuarios")]
         //public virtual ICollection<Enderecos> Enderecos { get; set; }

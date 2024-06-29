@@ -52,6 +52,8 @@ export default function FormConfig() {
                     Usu_ImgPerfil: base64String
                 }));
             };
+
+            formDataEnd.foto.nome = file.name;
             reader.readAsDataURL(file);
         }
     };

@@ -25,6 +25,6 @@ namespace Ecommerce.Application.DTOs
         public string Usu_senha { get; set; }
 
         public bool Usu_IsAdmin { get; set; }
-        public byte[]? Usu_ImgPerfil { get; set; }
+        public string? Usu_ImgPerfil { get; set; }
     }
 }
