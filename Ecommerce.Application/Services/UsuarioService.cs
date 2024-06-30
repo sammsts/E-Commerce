@@ -22,13 +22,33 @@ namespace Ecommerce.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<AtualizaUsuarioDto> Alterar(AtualizaUsuarioDto atualizaUsuarioDto)
+        public async Task<UsuarioDto> Alterar(UsuarioDto usuarioDto)
         {
             try
             {
-                var usuario = _mapper.Map<Usuarios>(atualizaUsuarioDto);
-                var usuarioAlterado = await _repository.Alterar(usuario);
-                return _mapper.Map<AtualizaUsuarioDto>(usuarioAlterado);
+                if (!string.IsNullOrEmpty(usuarioDto.Usu_ImgPerfilBase64))
+                {
+                    usuarioDto.Usu_ImgPerfil = Convert.FromBase64String(usuarioDto.Usu_ImgPerfilBase64);
+                }
+
+                var alterarUsuario = await _repository.SelecionarAsync((int)usuarioDto.Usu_id);
+
+                if (alterarUsuario == null)
+                {
+                    throw new ServiceException("Usuário não encontrado.");
+                }
+
+                alterarUsuario.SetNome(usuarioDto.Usu_nome);
+                alterarUsuario.SetEmail(usuarioDto.Usu_email);
+                if (usuarioDto.Usu_ImgPerfil != null)
+                {
+                    alterarUsuario.SetImgPerfil(usuarioDto.Usu_ImgPerfil);
+                }
+                alterarUsuario.SetAdmin(usuarioDto.Usu_IsAdmin);
+
+                var usuarioAlterado = await _repository.Alterar(alterarUsuario);
+
+                return _mapper.Map<UsuarioDto>(usuarioAlterado);
             }
             catch (Exception ex)
             {
@@ -36,6 +56,8 @@ namespace Ecommerce.Application.Services
                 throw new ServiceException("Ocorreu um erro ao tentar alterar o usuário.", ex);
             }
         }
+
+
 
         public async Task<UsuarioDto> Excluir(int id)
         {

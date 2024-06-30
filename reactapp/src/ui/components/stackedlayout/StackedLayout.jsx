@@ -11,23 +11,13 @@ import {
 import { Bars3Icon, ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Dropdown from '../dropdown/Dropdown.jsx'
 import ShoppingCart from '../shoppingcart/ShoppingCart.jsx'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const user = {
-    name: sessionStorage.getItem('UserName'),
-    email: sessionStorage.getItem('UserEmail'),
-    imageUrl: sessionStorage.getItem('UserImgProfile')
-}
 const navigation = [
     { name: 'Pedidos', href: '/pedidos', current: false },
     { name: 'Categorias', href: '/categorias', current: false },
     { name: 'Ofertas do dia', href: '/ofertasdodia', current: false },
     { name: 'Suporte', href: '/contato', current: false },
-]
-const userNavigation = [
-    { name: 'Bem vindo(a) ' + sessionStorage.getItem('UserName'), href: '#' },
-    { name: 'Configura\u00e7\u00f5es', href: '/configuracoes' },
-    { name: 'Sair', href: '/' },
 ]
 
 function classNames(...classes) {
@@ -36,6 +26,16 @@ function classNames(...classes) {
 
 export default function StackedLayout() {
     const [isShoppingCartOpen, setShoppingCartOpen] = useState(false);
+    const [userNavigation, setUserNavigation] = useState([
+        { name: 'Bem vindo(a) ', href: '#' },
+        { name: 'Configura\u00e7\u00f5es', href: '/configuracoes' },
+        { name: 'Sair', href: '/' },
+    ]);
+    const [user, setUser] = useState({
+        name: '',
+        email: '',
+        imageUrl: ''
+    });
 
     const toggleShoppingCart = () => {
         setShoppingCartOpen(prevState => !prevState);
@@ -44,6 +44,27 @@ export default function StackedLayout() {
     const handleCloseShoppingCart = () => {
         setShoppingCartOpen(false);
     };
+
+    const cleanBase64 = (base64String) => {
+        return base64String.replace(/"/g, '');
+    };
+
+    useEffect(() => {
+        const userName = sessionStorage.getItem('UserName');
+        const userEmail = sessionStorage.getItem('UserEmail');
+        const userImageUrl = sessionStorage.getItem('UserImgProfile');
+        if (userName) {
+            setUserNavigation(prevState => [
+                { name: `Bem vindo(a) ${userName}`, href: '#' },
+                ...prevState.slice(1)
+            ]);
+            setUser({
+                name: userName,
+                email: userEmail,
+                imageUrl: userImageUrl
+            });
+        }
+    }, []);
 
     return (
         <>
@@ -106,7 +127,7 @@ export default function StackedLayout() {
                                                     <MenuButton className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                                         <span className="absolute -inset-1.5" />
                                                         <span className="sr-only">Open user menu</span>
-                                                        <img className="h-8 w-8 rounded-full" src="../dist/avatar-boy-svgrepo-com.png" alt="avatar" />
+                                                        <img className="h-10 w-10 rounded-full" src={`data:image/jpeg;base64,${cleanBase64(user.imageUrl) }`} alt="avatar" />
                                                     </MenuButton>
                                                 </div>
                                                 <Transition

@@ -5,7 +5,7 @@ namespace Ecommerce.Application.DTOs
 {
     public class UsuarioDto
     {
-        public int Usu_id { get; set; }
+        public int? Usu_id { get; set; }
 
         [Required(ErrorMessage = "O nome é obrigatório.")]
         [StringLength(250)]
@@ -16,15 +16,11 @@ namespace Ecommerce.Application.DTOs
         [StringLength(50)]
         [MaxLength(50, ErrorMessage = "Campo de email aceita no máximo 50 caracteres.")]
         public string Usu_email { get; set; }
-
-        [NotMapped]
-        [Required(ErrorMessage = "A senha é obrigatória.")]
-        [StringLength(50)]
-        [MaxLength(50, ErrorMessage = "Campo de senha aceita no máximo 50 caracteres.")]
-        [MinLength(6, ErrorMessage = "Campo de senha deve ter no mínimo 6 caracteres.")]
-        public string Usu_senha { get; set; }
-
+        public string? Usu_senha { get; set; }
         public bool Usu_IsAdmin { get; set; }
-        public string? Usu_ImgPerfil { get; set; }
+        public string? Usu_ImgPerfilBase64 { get; set; }
+        public Byte[]? Usu_ImgPerfil { get; set; }
     }
+
+
 }

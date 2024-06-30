@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Ecommerce.API.Extensions;
 using Ecommerce.Infra.Ioc;
 using Ecommerce.Application.DTOs;
+using Newtonsoft.Json;
 
 namespace Ecommerce.API.Controllers
 {
@@ -89,7 +90,7 @@ namespace Ecommerce.API.Controllers
                 IsAdmin = usuario.Usu_IsAdmin,
                 UserEmail = usuario.Usu_email,
                 UserName = usuario.Usu_nome,
-                UserImgProfile = usuario.Usu_ImgPerfil
+                UserImgProfile = JsonConvert.SerializeObject(usuario.Usu_ImgPerfil)
             };
         }
 
@@ -114,7 +115,12 @@ namespace Ecommerce.API.Controllers
                 return BadRequest("Ocorreu um erro ao cadastrar o usuário!");
             }
 
-            var token = _authenticateService.GenerateToken(usuarioDto.Usu_id, usuarioDto.Usu_email);
+            if (usuarioDto.Usu_id == null)
+            {
+                usuarioDto.Usu_id = usuarioDtoIncluido.Usu_id;
+            }
+
+            var token = _authenticateService.GenerateToken((int)usuarioDto.Usu_id, usuarioDto.Usu_email);
 
             return new UserToken
             {
@@ -124,9 +130,10 @@ namespace Ecommerce.API.Controllers
 
         [HttpPut("AtualizarUsuario")]
         [Authorize]
-        public async Task<ActionResult> AlterarUsuario (AtualizaUsuarioDto atualizaUsuarioDto)
+        public async Task<ActionResult> AlterarUsuario (UsuarioDto usuarioDto)
         {
-            var usuarioDtoAlterado = await _usuarioService.Alterar(atualizaUsuarioDto);
+            usuarioDto.Usu_id = User.GetId();
+            var usuarioDtoAlterado = await _usuarioService.Alterar(usuarioDto);
             if (usuarioDtoAlterado == null) 
             {
                 return BadRequest("Ocorreu um erro ao tentar alterar o usuário!");

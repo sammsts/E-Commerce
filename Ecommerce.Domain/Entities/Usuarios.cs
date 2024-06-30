@@ -57,7 +57,7 @@ namespace Ecommerce.Domain.Entities
         public bool Usu_IsAdmin { get; set; }
 
         [Column("usu_imagemperfil")]
-        public string? Usu_ImgPerfil { get; set; }
+        public byte[]? Usu_ImgPerfil { get; set; }
 
         //[InverseProperty("Usuarios")]
         //public virtual ICollection<Enderecos> Enderecos { get; set; }
@@ -65,6 +65,21 @@ namespace Ecommerce.Domain.Entities
         public void SetAdmin(bool isAdmin)
         {
             Usu_IsAdmin = isAdmin;
+        }
+
+        public void SetNome(string nome)
+        {
+            Usu_nome = nome;
+        }
+
+        public void SetEmail(string email)
+        {
+            Usu_email = email;
+        }
+
+        public void SetImgPerfil(byte[]? imgPerfil)
+        {
+            Usu_ImgPerfil = imgPerfil;
         }
 
         public void AlterarSenha(byte[] _usu_senhaHash, byte[] _usu_senhaSalt)
