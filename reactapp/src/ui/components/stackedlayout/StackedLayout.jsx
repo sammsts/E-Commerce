@@ -89,7 +89,7 @@ export default function StackedLayout() {
                                             <a href="/home">
                                                 <img
                                                     className="h-8 w-8"
-                                                    src="../dist/online-shop-ecommerce-svgrepo-com.png"
+                                                    src="../public/online-shop-ecommerce-svgrepo-com.png"
                                                     alt="Logo"
                                                 />
                                             </a>
