@@ -15,7 +15,7 @@ const FormLoginRegister = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('https://localhost:7063/api/Usuario/Login', {
+            const response = await axios.post('https://webapiecommerceengsoft2.azurewebsites.net/api/Usuario/Login', {
                 email: email,
                 password: password
             });
@@ -40,7 +40,7 @@ const FormLoginRegister = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('https://localhost:7063/api/Usuario/RegistrarUsuario', {
+            const response = await axios.post('https://webapiecommerceengsoft2.azurewebsites.net/api/Usuario/RegistrarUsuario', {
                 Usu_nome: nome,
                 Usu_email: email,
                 Usu_senha: password
