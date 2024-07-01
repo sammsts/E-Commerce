@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://localhost:7063/api',
+    baseURL: 'https://webapiecommerceengsoft2.azurewebsites.net/api',
     headers: {
         Authorization: `Bearer ${localStorage.getItem('tokenJWT')}`,
     },
