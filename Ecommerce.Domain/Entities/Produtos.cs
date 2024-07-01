@@ -29,5 +29,10 @@ namespace Ecommerce.Domain.Entities
         [Required]
         [Column("prd_imgproduto")]
         public byte[] Prd_imgProduto { get; set; }
+
+        [Required]
+        [Column("prd_valor")]
+        public decimal Prd_valor { get; set; }
+
     }
 }

@@ -32,8 +32,14 @@ namespace Ecommerce.Application.Services
                     throw new NotFoundException("Produto não encontrado");
                 }
 
+                if (!string.IsNullOrEmpty(produtoDto.Prd_imgProdutoBase64))
+                {
+                    produtoDto.Prd_imgProduto = Convert.FromBase64String(produtoDto.Prd_imgProdutoBase64);
+                }
+
                 alterarProduto.Prd_descricao = produtoDto.Prd_descricao;
                 alterarProduto.Prd_quantidadeEstoque = produtoDto.Prd_quantidadeEstoque;
+                alterarProduto.Prd_valor = produtoDto.Prd_valor;
                 alterarProduto.Prd_dataHoraCadastro = DateTime.UtcNow;
 
                 var produto = _mapper.Map<Produtos>(alterarProduto);

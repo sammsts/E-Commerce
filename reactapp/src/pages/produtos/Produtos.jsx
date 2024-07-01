@@ -13,7 +13,9 @@ const Produtos = () => {
         Prd_descricao: '',
         Prd_quantidadeEstoque: null,
         Prd_dataHoraCadastro: null,
+        Prd_valor: null,
         Prd_imgProdutoBase64: '',
+        Prd_imgProduto: null,
         Prd_foto: {
             nome: '',
             bytes: null
@@ -70,7 +72,9 @@ const Produtos = () => {
                     Prd_descricao: '',
                     Prd_quantidadeEstoque: '',
                     Prd_dataHoraCadastro: null,
+                    Prd_valor: null,
                     Prd_imgProdutoBase64: '',
+                    Prd_imgProduto: null,
                     Prd_foto: {
                         nome: '',
                         bytes: null
@@ -102,6 +106,9 @@ const Produtos = () => {
                     </div>
                     <div className="grid gap-6 w-full">
                         <input value={formData.Prd_quantidadeEstoque} onChange={handleChange} className="p-3 shadow-2xl glass w-full text-black outline-none focus:border-solid focus:border-[1px]border-[#035ec5] placeholder:text-gray text-black" placeholder="Quantidade estoque" type="number" id="Prd_quantidadeEstoque" name="Prd_quantidadeEstoque" required="" />
+                    </div>
+                    <div className="grid gap-6 w-full">
+                        <input value={formData.Prd_valor} onChange={handleChange} className="p-3 shadow-2xl glass w-full text-black outline-none focus:border-solid focus:border-[1px]border-[#035ec5] placeholder:text-gray text-black" placeholder="R$ Valor" type="number" id="Prd_valor" name="Prd_valor" required="" />
                     </div>
                     <div className="col-span-full">
                         <label htmlFor="photo" className="block text-sm font-medium leading-6">
