@@ -22,21 +22,16 @@ namespace Ecommerce.Infra.Data.Context
             modelBuilder.Entity<Usuarios>(entity =>
             {
                 entity.HasKey(e => e.Usu_id);
-
-                //entity.HasMany(e => e.Enderecos)
-                //      .WithOne(e => e.Usuarios)
-                //      .HasForeignKey(e => e.Usu_id)
-                //      .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Enderecos>(entity =>
             {
                 entity.HasKey(e => e.End_id);
+            });
 
-                //entity.HasOne(d => d.Usuarios)
-                //      .WithMany(p => p.Enderecos)
-                //      .HasForeignKey(d => d.Usu_id)
-                //      .OnDelete(DeleteBehavior.ClientSetNull);
+            modelBuilder.Entity<Produtos>(entity =>
+            {
+                entity.HasKey(e => e.Prd_id);
             });
 
             modelBuilder.Entity<Pedidos>(entity =>

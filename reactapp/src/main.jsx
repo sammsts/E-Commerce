@@ -12,6 +12,7 @@ import Games from './pages/games/Games.jsx';
 import Collections from './ui/components/collections/Collections.jsx';
 import PageNotFound from './pages/pagenotfound/PageNotFound.jsx';
 import Pedidos from './pages/pedidos/Pedidos';
+import Produtos from './pages/produtos/Produtos.jsx';
 import OfertasDoDia from './pages/ofertasdodia/OfertasDoDia';
 import Contact from './ui/components/contact/Contact';
 import FormConfig from './ui/components/formconfig/FormConfig';
@@ -53,6 +54,7 @@ function AppRoutes() {
             <Route path="/periferico" element={<PrivateRoute element={Periferico} />} />
             <Route path="/computadores" element={<PrivateRoute element={Computadores} />} />
             <Route path="/games" element={<PrivateRoute element={Games} />} />
+            <Route path="/produtos" element={<PrivateRoute element={Produtos} />} />
             <Route path="/pedidos" element={<PrivateRoute element={Pedidos} />} />
             <Route path="/ofertasdodia" element={<PrivateRoute element={OfertasDoDia} />} />
             <Route path="/contato" element={<PrivateRoute element={Contact} />} />

@@ -52,12 +52,22 @@ export default function StackedLayout() {
     useEffect(() => {
         const userName = sessionStorage.getItem('UserName');
         const userEmail = sessionStorage.getItem('UserEmail');
+        const isAdmin = JSON.parse(sessionStorage.getItem('IsAdmin'));
         const userImageUrl = sessionStorage.getItem('UserImgProfile');
         if (userName) {
-            setUserNavigation(prevState => [
-                { name: `Bem vindo(a) ${userName}`, href: '#' },
-                ...prevState.slice(1)
-            ]);
+            setUserNavigation(prevState => {
+                const newNavigation = [
+                    { name: `Bem vindo(a) ${userName}`, href: '#' },
+                    ...prevState.slice(1)
+                ];
+
+                if (isAdmin && !newNavigation.some(item => item.name === 'Cadastrar produtos')) {
+                    newNavigation.splice(2, 0, { name: 'Cadastrar produtos', href: '/produtos' });
+                }
+
+                return newNavigation;
+            });
+
             setUser({
                 name: userName,
                 email: userEmail,
@@ -141,28 +151,28 @@ export default function StackedLayout() {
                                                     <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                         {userNavigation.map((item) => (
                                                             <MenuItem key={item.name}>
-                                                                {
-                                                                    item.name == 'Configura\u00e7\u00f5es' || item.name == 'Sair' ?
+                                                                {!item.name.includes('Bem vindo(a)') ? (
                                                                     ({ focus }) => (
                                                                         <a
                                                                             href={item.href}
                                                                             className={classNames(
                                                                                 focus ? 'bg-gray-100' : '',
-                                                                                'block px-4 py-2 text-sm text-gray-700',
+                                                                                'block px-4 py-2 text-sm text-gray-700'
                                                                             )}
                                                                         >
                                                                             {item.name}
                                                                         </a>
-                                                                    ) :
+                                                                    )
+                                                                ) : (
                                                                     <div
                                                                         href={item.href}
                                                                         className={classNames(
-                                                                            'block px-4 py-2 text-sm text-gray-700 hover:underline',
+                                                                            'block px-4 py-2 text-sm text-gray-700 hover:underline'
                                                                         )}
                                                                     >
                                                                         {item.name}
                                                                     </div>
-                                                                }
+                                                                )}
                                                             </MenuItem>
                                                         ))}
                                                     </MenuItems>

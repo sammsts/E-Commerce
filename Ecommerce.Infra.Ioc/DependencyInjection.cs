@@ -53,12 +53,14 @@ namespace Ecommerce.Infra.Ioc
             #region Services
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IEnderecoService, EnderecoService>();
+            services.AddScoped<IProdutoService, ProdutoService>();
             services.AddScoped<IAuthenticate, AuthenticateService>();
             services.AddScoped<ITokenService, TokenService>();
             #endregion
             #region Repositories
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+            services.AddScoped<IProdutoRepository, ProdutoRepository>();
             #endregion
 
             return services;

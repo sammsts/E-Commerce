@@ -26,6 +26,7 @@ const FormLoginRegister = () => {
                 sessionStorage.setItem('Authenticated', true);
                 sessionStorage.setItem('UserName', response.data.userName);
                 sessionStorage.setItem('UserEmail', response.data.userEmail);
+                sessionStorage.setItem('IsAdmin', response.data.isAdmin);
                 sessionStorage.setItem('UserImgProfile', response.data.userImgProfile);
             }
 
