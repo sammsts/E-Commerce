@@ -99,16 +99,16 @@ const Produtos = () => {
             <form onSubmit={handleSubmit} className="px-7 grid justify-center items-center">
                 <div className="grid gap-6" id="form">
                     <div className="w-full flex gap-3">
-                        <input value={formData.Prd_serialId} onChange={handleChange} className="shadow-2xl p-3 ex w-full outline-none focus:border-solid focus:border-[1px] border-[#035ec5] placeholder:text-gray text-black" type="number" placeholder="C&oacute;digo serial" id="Prd_serialId" name="Prd_serialId" required="" />
+                        <input value={formData.Prd_serialId} onChange={handleChange} className="shadow-2xl p-3 ex w-full outline-none focus:border-solid focus:border-[1px] border-[#035ec5] placeholder:text-gray" type="number" placeholder="C&oacute;digo serial" id="Prd_serialId" name="Prd_serialId" required="" />
                     </div>
                     <div className="w-full flex gap-3">
-                        <input value={formData.Prd_descricao} onChange={handleChange} className="shadow-2xl p-3 ex w-full outline-none focus:border-solid focus:border-[1px] border-[#035ec5] placeholder:text-gray text-black" type="text" placeholder="Descri&ccedil;&atilde;o do produto" id="Prd_descricao" name="Prd_descricao" required="" />
+                        <input value={formData.Prd_descricao} onChange={handleChange} className="shadow-2xl p-3 ex w-full outline-none focus:border-solid focus:border-[1px] border-[#035ec5] placeholder:text-gray" type="text" placeholder="Descri&ccedil;&atilde;o do produto" id="Prd_descricao" name="Prd_descricao" required="" />
                     </div>
                     <div className="grid gap-6 w-full">
-                        <input value={formData.Prd_quantidadeEstoque} onChange={handleChange} className="p-3 shadow-2xl glass w-full text-black outline-none focus:border-solid focus:border-[1px]border-[#035ec5] placeholder:text-gray text-black" placeholder="Quantidade estoque" type="number" id="Prd_quantidadeEstoque" name="Prd_quantidadeEstoque" required="" />
+                        <input value={formData.Prd_quantidadeEstoque} onChange={handleChange} className="p-3 shadow-2xl glass w-full outline-none focus:border-solid focus:border-[1px]border-[#035ec5] placeholder:text-gray" placeholder="Quantidade estoque" type="number" id="Prd_quantidadeEstoque" name="Prd_quantidadeEstoque" required="" />
                     </div>
                     <div className="grid gap-6 w-full">
-                        <input value={formData.Prd_valor} onChange={handleChange} className="p-3 shadow-2xl glass w-full text-black outline-none focus:border-solid focus:border-[1px]border-[#035ec5] placeholder:text-gray text-black" placeholder="R$ Valor" type="number" id="Prd_valor" name="Prd_valor" required="" />
+                        <input value={formData.Prd_valor} onChange={handleChange} className="p-3 shadow-2xl glass w-full outline-none focus:border-solid focus:border-[1px]border-[#035ec5] placeholder:text-gray" placeholder="R$ Valor" type="number" id="Prd_valor" name="Prd_valor" required="" />
                     </div>
                     <div className="col-span-full">
                         <label htmlFor="photo" className="block text-sm font-medium leading-6">

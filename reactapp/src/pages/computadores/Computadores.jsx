@@ -2,7 +2,7 @@ import ProductList from "../../ui/components/productlist/ProductList";
 
 const Computadores = () => {
     return (
-        <ProductList />
+        <ProductList category={4} />
     );
 };
 

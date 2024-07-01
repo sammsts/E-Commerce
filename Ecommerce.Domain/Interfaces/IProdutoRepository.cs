@@ -9,6 +9,7 @@ namespace Ecommerce.Domain.Interfaces
         Task<Produtos> Alterar(Produtos produto);
         Task<Produtos> Excluir(int id);
         Task<Produtos> SelecionarAsync(int id);
+        Task<IEnumerable<Produtos>> SelecionarPorIdsAsync(int[] ids);
         Task<PagedList<Produtos>> SelecionarTodosAsync(int pageNumber, int pageSize);
     }
 }

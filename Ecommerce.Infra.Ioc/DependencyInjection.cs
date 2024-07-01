@@ -54,6 +54,8 @@ namespace Ecommerce.Infra.Ioc
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IEnderecoService, EnderecoService>();
             services.AddScoped<IProdutoService, ProdutoService>();
+            services.AddScoped<ICarrinhoService, CarrinhoService>();
+            services.AddScoped<IPedidoService, PedidoService>();
             services.AddScoped<IAuthenticate, AuthenticateService>();
             services.AddScoped<ITokenService, TokenService>();
             #endregion
@@ -61,6 +63,8 @@ namespace Ecommerce.Infra.Ioc
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            services.AddScoped<ICarrinhoRepository, CarrinhoRepository>();
+            services.AddScoped<IPedidoRepository, PedidoRepository>();
             #endregion
 
             return services;

@@ -37,46 +37,11 @@ namespace Ecommerce.Infra.Data.Context
             modelBuilder.Entity<Pedidos>(entity =>
             {
                 entity.HasKey(e => e.Ped_Id);
-
-                entity.HasOne(d => d.Produto)
-                      .WithMany()
-                      .HasForeignKey(d => d.Prd_Id)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
-
-                entity.HasOne(d => d.Usuario)
-                      .WithMany()
-                      .HasForeignKey(d => d.Usu_Id)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
-
-                entity.HasOne(d => d.Endereco)
-                      .WithMany()
-                      .HasForeignKey(d => d.End_Id)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Carrinho>(entity =>
             {
                 entity.HasKey(e => e.Car_Id);
-
-                entity.HasOne(d => d.Pedido)
-                      .WithMany()
-                      .HasForeignKey(d => d.Ped_Id)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
-
-                entity.HasOne(d => d.Produto)
-                      .WithMany()
-                      .HasForeignKey(d => d.Prd_Id)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
-
-                entity.HasOne(d => d.Usuario)
-                      .WithMany()
-                      .HasForeignKey(d => d.Usu_Id)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
-
-                entity.HasOne(d => d.Endereco)
-                      .WithMany()
-                      .HasForeignKey(d => d.End_Id)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
             });
         }
     }

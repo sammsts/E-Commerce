@@ -15,8 +15,8 @@ import React, { useState, useEffect } from 'react';
 
 const navigation = [
     { name: 'Pedidos', href: '/pedidos', current: false },
-    { name: 'Categorias', href: '/categorias', current: false },
-    { name: 'Ofertas do dia', href: '/ofertasdodia', current: false },
+    //{ name: 'Categorias', href: '/categorias', current: false },
+    //{ name: 'Ofertas do dia', href: '/ofertasdodia', current: false },
     { name: 'Suporte', href: '/contato', current: false },
 ]
 

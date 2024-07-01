@@ -9,6 +9,7 @@ namespace Ecommerce.Domain.Interfaces
         Task<Usuarios> Alterar(Usuarios usuario);
         Task<Usuarios> Excluir(int id);
         Task<Usuarios> SelecionarAsync(int id);
+        Task<Usuarios> SelecionarPorEmailAsync(string email);
         Task<PagedList<Usuarios>> SelecionarTodosAsync(int pageNumber, int pageSize);
         Task<int> BuscarUltimoId();
     }

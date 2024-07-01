@@ -3,9 +3,7 @@ using Ecommerce.API.Extensions;
 using Ecommerce.API.Models;
 using Ecommerce.Application.DTOs;
 using Ecommerce.Application.Interfaces;
-using Ecommerce.Application.Services;
 using Ecommerce.Domain.Interfaces;
-using Ecommerce.Infra.Data.Identity;
 using Ecommerce.Infra.Ioc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +41,19 @@ namespace webapi.Controllers
         public async Task<ActionResult> BuscarProdutoPorId(int id)
         {
             var produtoDto = await _produtoService.SelecionarAsync(id);
+            if (produtoDto == null)
+            {
+                return NotFound("Produto não encontrado!");
+            }
+
+            return Ok(produtoDto);
+        }
+
+        [HttpGet("SelecionarPorIds")]
+        [Authorize]
+        public async Task<ActionResult> BuscarProdutoPorIds([FromQuery] int[] id)
+        {
+            var produtoDto = await _produtoService.SelecionarPorIdsAsync(id);
             if (produtoDto == null)
             {
                 return NotFound("Produto não encontrado!");

@@ -37,12 +37,8 @@ namespace Ecommerce.Domain.Entities
         public int End_Id { get; set; }
 
         [Required]
+        [EnumDataType(typeof(SituacaoCarrinho))]
         [Column("car_situacao")]
-        public SituacaoCarrinho CarSituacao { get; set; }
-
-        public virtual Pedidos Pedido { get; set; }
-        public virtual Produtos Produto { get; set; }
-        public virtual Usuarios Usuario { get; set; }
-        public virtual Enderecos Endereco { get; set; }
+        public SituacaoCarrinho Car_Situacao { get; set; }
     }
 }

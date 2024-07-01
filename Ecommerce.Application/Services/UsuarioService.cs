@@ -115,6 +115,19 @@ namespace Ecommerce.Application.Services
             }
         }
 
+        public async Task<UsuarioDto> SelecionarPorEmailAsync(string email)
+        {
+            try
+            {
+                var usuario = await _repository.SelecionarPorEmailAsync(email);
+                return _mapper.Map<UsuarioDto>(usuario);
+            }
+            catch (Exception ex)
+            {
+                throw new ServiceException("Ocorreu um erro ao tentar buscar o usuário.", ex);
+            }
+        }
+
         public async Task<PagedList<UsuarioDto>> SelecionarTodosAsync(int pageNumber, int pageSize)
         {
             try

@@ -106,6 +106,19 @@ namespace Ecommerce.Application.Services
             }
         }
 
+        public async Task<IEnumerable<ProdutoDto>> SelecionarPorIdsAsync(int[] ids)
+        {
+            try
+            {
+                var produto = await _repository.SelecionarPorIdsAsync(ids);
+                return _mapper.Map<IEnumerable<ProdutoDto>>(produto);
+            }
+            catch (Exception ex)
+            {
+                throw new ServiceException("Ocorreu um erro ao tentar buscar o produtos.", ex);
+            }
+        }
+
         public async Task<PagedList<ProdutoDto>> SelecionarTodosAsync(int pageNumber, int pageSize)
         {
             try

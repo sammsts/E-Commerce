@@ -65,6 +65,26 @@ namespace Ecommerce.API.Controllers
             return Ok(usuarioDto);
         }
 
+        [HttpGet("SelecionarPorEmail/{email}")]
+        [Authorize]
+        public async Task<ActionResult> BuscarUsuarioPorEmail(string email)
+        {
+            var isAdmin = await PermissionsAdmin();
+
+            if (!isAdmin)
+            {
+                return Unauthorized("Você não tem permissão para consultar usuário.");
+            }
+
+            var usuarioDto = await _usuarioService.SelecionarPorEmailAsync(email);
+            if (usuarioDto == null)
+            {
+                return NotFound("Usuário não encontrado!");
+            }
+
+            return Ok(usuarioDto);
+        }
+
         [HttpPost("Login")]
         public async Task<ActionResult<UserToken>> AutenticarUsuario(LoginModel loginModel)
         {

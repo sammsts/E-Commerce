@@ -78,6 +78,18 @@ namespace Ecommerce.Infra.Data.Repositories
             }
         }
 
+        public async Task<IEnumerable<Produtos>> SelecionarPorIdsAsync(int[] ids)
+        {
+            try
+            {
+                return await _context.Produtos.Where(p => ids.Contains(p.Prd_id)).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new RepositoryException("Ocorreu um erro ao buscar o produto.", ex);
+            }
+        }
+
         public async Task<PagedList<Produtos>> SelecionarTodosAsync(int pageNumber, int pageSize)
         {
             try

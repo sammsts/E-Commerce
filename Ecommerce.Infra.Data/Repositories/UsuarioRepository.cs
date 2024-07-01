@@ -103,5 +103,17 @@ namespace Ecommerce.Interfaces.Repositorios
                 throw new RepositoryException("Ocorreu um erro ao buscar último usuário salvo.", ex);
             }
         }
+
+        public async Task<Usuarios> SelecionarPorEmailAsync(string email)
+        {
+            try
+            {
+                return await _context.Usuarios.Where(x => x.Usu_email.ToLower().Trim() == email.ToLower().Trim()).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new RepositoryException("Ocorreu um erro ao buscar o usuário pelo email.", ex);
+            }
+        }
     }
 }

@@ -1,25 +1,32 @@
 const callouts = [
     {
-        name: 'Desk and Office',
-        description: 'Work from home accessories',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg',
+        name: 'Hardware',
+        description: 'Op\u00e7\u00f5es de hardware para seu setup',
+        imageSrc: './public/hardware.jpg',
         imageAlt: 'Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug.',
-        href: '#',
+        href: '/hardware',
     },
     {
-        name: 'Self-Improvement',
-        description: 'Journals and note-taking',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg',
+        name: 'Perif\u00e9ricos',
+        description: 'Perif\u00e9ricos para inovar',
+        imageSrc: './public/perifericos.jpg',
         imageAlt: 'Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant.',
-        href: '#',
+        href: '/periferico',
     },
     {
-        name: 'Travel',
-        description: 'Daily commute essentials',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg',
+        name: 'Computadores',
+        description: 'Computadores de alta tecnologia',
+        imageSrc: './public/computadores.jpg',
         imageAlt: 'Collection of four insulated travel bottles on wooden shelf.',
-        href: '#',
+        href: '/computadores',
     },
+    {
+        name: 'Games',
+        description: 'Se\u00e7\u00e3o de games',
+        imageSrc: './public/games.jpg',
+        imageAlt: 'Collection of four insulated travel bottles on wooden shelf.',
+        href: '/games',
+    }
 ]
 
 export default function Collections() {

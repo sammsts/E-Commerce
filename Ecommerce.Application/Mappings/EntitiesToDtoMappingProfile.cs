@@ -11,6 +11,8 @@ namespace Ecommerce.API.Mappings
             CreateMap<Usuarios, UsuarioDto>().ReverseMap();
             CreateMap<Enderecos, EnderecoDto>().ReverseMap();
             CreateMap<Produtos, ProdutoDto>().ReverseMap();
+            CreateMap<Carrinho, CarrinhoDto>().ReverseMap();
+            CreateMap<Pedidos, PedidoDto>().ReverseMap();
         }
     }
 }

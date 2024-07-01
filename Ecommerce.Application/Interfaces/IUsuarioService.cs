@@ -9,6 +9,7 @@ namespace Ecommerce.Application.Interfaces
         Task<UsuarioDto> Alterar(UsuarioDto usuarioDto);
         Task<UsuarioDto> Excluir(int id);
         Task<UsuarioDto> SelecionarAsync(int id);
+        Task<UsuarioDto> SelecionarPorEmailAsync(string email);
         Task<PagedList<UsuarioDto>> SelecionarTodosAsync(int pageNumber, int pageSize);
     }
 }

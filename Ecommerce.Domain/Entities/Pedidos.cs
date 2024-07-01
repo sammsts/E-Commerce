@@ -26,7 +26,7 @@ namespace Ecommerce.Domain.Entities
         [Required]
         [ForeignKey("produtos")]
         [Column("prd_id")]
-        public int Prd_Id { get; set; }
+        public int[] Prd_Id { get; set; }
 
         [Required]
         [ForeignKey("usuarios")]
@@ -43,7 +43,7 @@ namespace Ecommerce.Domain.Entities
         public int Ped_Quantidade { get; set; }
 
         [Required]
-        [Column("ped_formaPagamento")]
+        [Column("ped_formapagamento")]
         public FormaPagamentoPedido Ped_FormaPagamento { get; set; }
 
         [Required]
@@ -51,11 +51,7 @@ namespace Ecommerce.Domain.Entities
         public SituacaoPedido Ped_Situacao { get; set; }
 
         [Required]
-        [Column("ped_dataPedido")]
+        [Column("ped_datapedido")]
         public DateTime Ped_DataPedido { get; set; }
-
-        public virtual Produtos Produto { get; set; }
-        public virtual Usuarios Usuario { get; set; }
-        public virtual Enderecos Endereco { get; set; }
     }
 }
