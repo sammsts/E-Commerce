@@ -26,7 +26,6 @@ namespace Ecommerce.Domain.Entities
         [Column("prd_datahoracadastro")]
         public DateTime Prd_dataHoraCadastro { get; set; }
 
-        [Required]
         [Column("prd_imgproduto")]
         public byte[] Prd_imgProduto { get; set; }
 

@@ -75,6 +75,11 @@ namespace Ecommerce.Application.Services
         {
             try
             {
+                if (!string.IsNullOrEmpty(produtoDto.Prd_imgProdutoBase64))
+                {
+                    produtoDto.Prd_imgProduto = Convert.FromBase64String(produtoDto.Prd_imgProdutoBase64);
+                }
+
                 produtoDto.Prd_dataHoraCadastro = DateTime.UtcNow;
 
                 var produto = _mapper.Map<Produtos>(produtoDto);

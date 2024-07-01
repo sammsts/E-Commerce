@@ -13,7 +13,7 @@ namespace Ecommerce.Application.DTOs
         public int Prd_quantidadeEstoque { get; set; }
         public DateTime? Prd_dataHoraCadastro { get; set; }
         public string Prd_imgProdutoBase64 { get; set; }
-        public byte[] Prd_imgProduto { get; set; }
+        public Byte[]? Prd_imgProduto { get; set; }
         public decimal Prd_valor { get; set; }
     }
 }

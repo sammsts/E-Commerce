@@ -16,6 +16,7 @@ import Produtos from './pages/produtos/Produtos.jsx';
 import OfertasDoDia from './pages/ofertasdodia/OfertasDoDia';
 import Contact from './ui/components/contact/Contact';
 import FormConfig from './ui/components/formconfig/FormConfig';
+import ProductOverview from './ui/components/productoverview/ProductOverview.jsx';
 
 function PrivateRoute({ element: Element, ...rest }) {
     return localStorage.getItem('tokenJWT') ? (
@@ -59,6 +60,7 @@ function AppRoutes() {
             <Route path="/ofertasdodia" element={<PrivateRoute element={OfertasDoDia} />} />
             <Route path="/contato" element={<PrivateRoute element={Contact} />} />
             <Route path="/configuracoes" element={<PrivateRoute element={FormConfig} />} />
+            <Route path="/productoverview" element={<PrivateRoute element={ProductOverview} />} />
             <Route path="/404" element={<PageNotFound />} />
             <Route path="*" element={<Navigate to="/404" />} />
         </Routes>

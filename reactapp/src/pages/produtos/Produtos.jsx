@@ -1,4 +1,3 @@
-import { UserCircleIcon } from '@heroicons/react/24/solid';
 import React, { useState, useRef } from 'react';
 import api from '/src/api.jsx';
 
@@ -48,7 +47,8 @@ const Produtos = () => {
                     Prd_foto: {
                         nome: file.name,
                         bytes: base64String
-                    }
+                    },
+                    Prd_imgProdutoBase64: base64String
                 }));
             };
 
